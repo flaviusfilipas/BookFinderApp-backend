@@ -10,5 +10,5 @@ public class UserWatchlistDTO {
     private Double originalPrice;
     private Double lastPrice;
     private Integer bookId;
-    private Integer userId;
+    private String userId;
 }
