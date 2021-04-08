@@ -24,17 +24,17 @@ public class BookService {
     }
 
     public BookDTO save(BookDTO bookDTO){
-        BookDTO bookByIsbn = this.findByISBN(bookDTO.getIsbn());
-        if(bookByIsbn != null){
-            return bookByIsbn;
+        BookDTO bookByIsbnAndProvider = this.findByISBNAndProvider(bookDTO.getIsbn(),bookDTO.getOffer().getProvider());
+        if(bookByIsbnAndProvider != null){
+            return bookByIsbnAndProvider;
         }
         Book entity = bookMapper.toEntity(bookDTO);
         Book savedBook = bookRepository.save(entity);
         return bookMapper.toDto(savedBook);
     }
 
-    public BookDTO findByISBN(String isbn){
-        Book book = bookRepository.findByisbn(isbn);
+    public BookDTO findByISBNAndProvider(String isbn, String provider){
+        Book book = bookRepository.findByisbnAndProvider(isbn, provider);
         return bookMapper.toDto(book);
     }
 

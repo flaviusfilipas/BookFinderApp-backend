@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
+@CrossOrigin("*")
 public class BookResource {
     private final BookService bookService;
     private final UserWatchlistService userWatchlistService;
@@ -32,8 +33,8 @@ public class BookResource {
     @PostMapping("/watchlist")
     public ResponseEntity<Void> addToWatchlist(@RequestBody WatchlistBookDTO watchlistBookDTO) throws URISyntaxException {
         BookDTO savedBook = bookService.save(watchlistBookDTO.getBookDTO());
-        UserWatchlistDTO savedUserWatchlist = userWatchlistService.save(watchlistBookDTO.getCurrentUserId(),
-                savedBook.getId(),watchlistBookDTO.getOriginalPrice());
+        UserWatchlistDTO savedUserWatchlist = userWatchlistService.save(watchlistBookDTO,
+                savedBook.getId());
         return ResponseEntity.created(new URI("/api/books/watchlist/" + savedUserWatchlist.getId()))
                 .build();
     }

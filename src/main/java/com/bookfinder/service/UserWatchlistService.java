@@ -2,6 +2,7 @@ package com.bookfinder.service;
 
 import com.bookfinder.domain.UserWatchlist;
 import com.bookfinder.dto.UserWatchlistDTO;
+import com.bookfinder.dto.custom.WatchlistBookDTO;
 import com.bookfinder.mapper.UserWatchlistMapper;
 import com.bookfinder.repository.UserWatchlistRepository;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class UserWatchlistService {
         this.userWatchlistMapper = userWatchlistMapper;
     }
 
-    public UserWatchlistDTO save(String userId, Integer bookId,Double bookPrice){
-        UserWatchlistDTO userWatchlistDTO = this.createUserWatchlist(userId, bookId,bookPrice);
+    public UserWatchlistDTO save(WatchlistBookDTO watchlistBookDTO, Integer bookId){
+        UserWatchlistDTO userWatchlistDTO = this.createUserWatchlist(watchlistBookDTO, bookId);
         UserWatchlist userWatchlist = userWatchlistMapper.toEntity(userWatchlistDTO);
         UserWatchlist savedUserWatchlist = userWatchlistRepository.save(userWatchlist);
         return userWatchlistMapper.toDto(savedUserWatchlist);
@@ -30,12 +31,14 @@ public class UserWatchlistService {
         return userWatchlistMapper.toDto(savedUserWatchlist);
     }
 
-    public UserWatchlistDTO createUserWatchlist(String userId, Integer bookId,Double bookPrice){
+    public UserWatchlistDTO createUserWatchlist(WatchlistBookDTO watchlistBookDTO,Integer bookId){
         UserWatchlistDTO userWatchlistDTO = new UserWatchlistDTO();
-        userWatchlistDTO.setUserId(userId);
+        userWatchlistDTO.setUserId(watchlistBookDTO.getCurrentUserId());
         userWatchlistDTO.setBookId(bookId);
-        userWatchlistDTO.setOriginalPrice(bookPrice);
-        userWatchlistDTO.setLastPrice(bookPrice);
+        userWatchlistDTO.setOriginalPrice(watchlistBookDTO.getOriginalPrice());
+        userWatchlistDTO.setLastPrice(watchlistBookDTO.getOriginalPrice());
+        userWatchlistDTO.setHasStockAlert(watchlistBookDTO.getHasStockAlert());
+        userWatchlistDTO.setHasPriceAlert(watchlistBookDTO.getHasPriceAlert());
         return userWatchlistDTO;
     }
 

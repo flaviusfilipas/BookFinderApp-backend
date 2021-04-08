@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book,Integer> {
 
-    Book findByisbn(String isbn);
+    Book findByisbnAndProvider(String isbn, String provider);
 
     @Query("SELECT NEW com.bookfinder.domain.custom.WatchlistBook(b,u,uw) " +
             "from Book b " +
