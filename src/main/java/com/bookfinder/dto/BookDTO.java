@@ -1,5 +1,6 @@
 package com.bookfinder.dto;
 
+import com.bookfinder.dto.custom.OfferDTO;
 import lombok.Data;
 
 @Data
@@ -12,7 +13,5 @@ public class BookDTO {
     private String publisher;
     private String coverType;
     private Integer numberOfPages;
-    private String link;
-    private String provider;
-    private Boolean hasStock;
+    private OfferDTO offer;
 }
