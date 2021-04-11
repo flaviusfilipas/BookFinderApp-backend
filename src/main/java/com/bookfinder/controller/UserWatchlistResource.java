@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user-watchlists")
+@CrossOrigin("*")
 public class UserWatchlistResource {
     private final UserWatchlistService userWatchlistService;
 
@@ -21,12 +22,12 @@ public class UserWatchlistResource {
     }
     @PostMapping("/alerts/{id}")
     public ResponseEntity<UserWatchlistDTO> addAlert(@PathVariable Integer id, @RequestParam("alertType") String alertType){
-        UserWatchlistDTO userWatchlistDTO = userWatchlistService.addAlert(id, alertType);
+        UserWatchlistDTO userWatchlistDTO = userWatchlistService.manageAlert(id, alertType,true);
         return ResponseEntity.ok(userWatchlistDTO);
     }
     @DeleteMapping("/alerts/{id}")
     public ResponseEntity<UserWatchlistDTO> deleteAlert(@PathVariable Integer id, @RequestParam("alertType") String alertType){
-        UserWatchlistDTO userWatchlistDTO = userWatchlistService.deleteAlert(id, alertType);
+        UserWatchlistDTO userWatchlistDTO = userWatchlistService.manageAlert(id, alertType,false);
         return ResponseEntity.ok(userWatchlistDTO);
     }
 }

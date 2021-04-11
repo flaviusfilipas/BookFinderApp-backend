@@ -21,9 +21,7 @@ public class UserWatchlistService {
 
     public UserWatchlistDTO save(WatchlistBookDTO watchlistBookDTO, Integer bookId){
         UserWatchlistDTO userWatchlistDTO = this.createUserWatchlist(watchlistBookDTO, bookId);
-        UserWatchlist userWatchlist = userWatchlistMapper.toEntity(userWatchlistDTO);
-        UserWatchlist savedUserWatchlist = userWatchlistRepository.save(userWatchlist);
-        return userWatchlistMapper.toDto(savedUserWatchlist);
+        return this.save(userWatchlistDTO);
     }
     public UserWatchlistDTO save(UserWatchlistDTO userWatchlistDTO){
         UserWatchlist userWatchlist = userWatchlistMapper.toEntity(userWatchlistDTO);
@@ -52,36 +50,18 @@ public class UserWatchlistService {
         return userWatchlistMapper.toDto(userWatchlist);
     }
 
-    public UserWatchlistDTO addAlert(Integer id, String alertType){
+    public UserWatchlistDTO manageAlert(Integer id, String alertType,Boolean alertValue){
         UserWatchlistDTO userWatchlistDTO = this.findById(id);
         UserWatchlistDTO updatedWatchlist = null;
         switch (alertType) {
-            case "stock": userWatchlistDTO.setHasStockAlert(true);
+            case "stock": userWatchlistDTO.setHasStockAlert(alertValue);
             updatedWatchlist = this.save(userWatchlistDTO);
             break;
-            case "price": userWatchlistDTO.setHasPriceAlert(true);
+            case "price": userWatchlistDTO.setHasPriceAlert(alertValue);
             updatedWatchlist = this.save(userWatchlistDTO);
             break;
-            case "all" : userWatchlistDTO.setHasPriceAlert(true);
+            case "all" : userWatchlistDTO.setHasPriceAlert(alertValue);
             userWatchlistDTO.setHasStockAlert(true);
-            updatedWatchlist = this.save(userWatchlistDTO);
-            break;
-            default: System.out.println("Error");
-        }
-        return updatedWatchlist;
-    }
-    public UserWatchlistDTO deleteAlert(Integer id, String alertType){
-        UserWatchlistDTO userWatchlistDTO = this.findById(id);
-        UserWatchlistDTO updatedWatchlist = null;
-        switch (alertType) {
-            case "stock": userWatchlistDTO.setHasStockAlert(false);
-            updatedWatchlist = this.save(userWatchlistDTO);
-            break;
-            case "price": userWatchlistDTO.setHasPriceAlert(false);
-            updatedWatchlist = this.save(userWatchlistDTO);
-            break;
-            case "all" : userWatchlistDTO.setHasPriceAlert(false);
-            userWatchlistDTO.setHasStockAlert(false);
             updatedWatchlist = this.save(userWatchlistDTO);
             break;
             default: System.out.println("Error");
