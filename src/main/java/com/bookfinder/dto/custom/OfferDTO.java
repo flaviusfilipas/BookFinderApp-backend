@@ -7,4 +7,5 @@ public class OfferDTO {
     private String link;
     private String provider;
     private Boolean hasStock;
+    private Double price;
 }

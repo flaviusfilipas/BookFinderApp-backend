@@ -20,4 +20,17 @@ public interface BookRepository extends JpaRepository<Book,Integer> {
             "inner join User u on u.id = uw.user.id " +
             "where u.id = :userId")
     List<WatchlistBook> findWatchlistBooksByUserId(@Param("userId") String userId);
+
+    @Query("SELECT NEW com.bookfinder.domain.custom.WatchlistBook(b,u,uw) " +
+            "from Book b " +
+            "inner join UserWatchlist uw on uw.book.id = b.id " +
+            "inner join User u on u.id = uw.user.id ")
+    List<WatchlistBook> findAllWatchlistBooks();
+
+    @Query("SELECT NEW com.bookfinder.domain.custom.WatchlistBook(b,u,uw) " +
+            "from Book b " +
+            "inner join UserWatchlist uw on uw.book.id = b.id " +
+            "inner join User u on u.id = uw.user.id " +
+            "where b.id = :id")
+    WatchlistBook findWatchlistBookById(Integer id);
 }

@@ -1,6 +1,7 @@
 package com.bookfinder.service;
 
 import com.bookfinder.domain.Book;
+import com.bookfinder.domain.custom.WatchlistBook;
 import com.bookfinder.dto.BookDTO;
 import com.bookfinder.dto.custom.WatchlistBookDTO;
 import com.bookfinder.mapper.BookMapper;
@@ -9,6 +10,7 @@ import com.bookfinder.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,5 +45,24 @@ public class BookService {
                 .stream()
                 .map(watchlistBookMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<WatchlistBookDTO> getAllWatchlistBooks(){
+        return bookRepository.findAllWatchlistBooks()
+                .stream()
+                .map(watchlistBookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+    public List<WatchlistBookDTO> getAllFilteredWatchlistBooks(Predicate<WatchlistBook> filterPredicate){
+        return bookRepository.findAllWatchlistBooks()
+                .stream()
+                .filter(filterPredicate)
+                .map(watchlistBookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public WatchlistBookDTO getWatchlistBookById(Integer id){
+        WatchlistBook watchlistBook = bookRepository.findWatchlistBookById(id);
+        return watchlistBookMapper.toDto(watchlistBook);
     }
 }

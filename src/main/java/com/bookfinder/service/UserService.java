@@ -6,6 +6,8 @@ import com.bookfinder.mapper.UserMapper;
 import com.bookfinder.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -19,5 +21,11 @@ public class UserService {
         User entity = userMapper.toEntity(userDTO);
         User savedUser = userRepository.save(entity);
         return userMapper.toDto(savedUser);
+    }
+
+    public UserDTO findById(Integer id){
+        return userRepository.findById(id)
+                .map(userMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find user with id " + id));
     }
 }
