@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>Dear user,</p>
+<p th:text="'Book ' + ${watchlistBook.bookDTO.title} + ' is back in stock '"></p>
+<span>
+     Click
+    <a th:href="${watchlistBook.bookDTO.offer.link}"> here </a>
+    to go to provider's page.
+</span>
+<p>Regards,</p>
+<p>Bookify Team</p>
+</body>
+</html>
